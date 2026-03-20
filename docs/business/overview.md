@@ -1,10 +1,10 @@
 # プロジェクト概要
 
-## n8n-nodes-ghpp とは
+## n8n-node-ghpp とは
 
-`n8n-nodes-ghpp` は、GitHub Projects V2 のステータス管理を自動化する CLI ツール [ghpp](https://github.com/douhashi/ghpp)（GitHub Project Promoter）を n8n のカスタムノードとして操作可能にする npm パッケージである。
+`n8n-node-ghpp` は、GitHub Projects V2 のステータス管理を自動化する CLI ツール [ghpp](https://github.com/douhashi/ghpp)（GitHub Project Promoter）を n8n のカスタムノードとして操作可能にする npm パッケージである。
 
-- **パッケージ名**: `n8n-nodes-ghpp`
+- **パッケージ名**: `n8n-node-ghpp`
 - **対象バイナリ**: [douhashi/ghpp](https://github.com/douhashi/ghpp)
 - **運用環境**: Docker（セルフホスト n8n）前提
 
