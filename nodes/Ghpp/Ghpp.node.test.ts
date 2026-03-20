@@ -8,7 +8,16 @@ import { Ghpp } from './Ghpp.node';
 
 vi.mock('child_process', () => ({
 	execFile: vi.fn(),
+	execFileSync: vi.fn(),
 }));
+
+vi.mock('fs', async (importOriginal) => {
+	const actual = await importOriginal<typeof import('fs')>();
+	return {
+		...actual,
+		existsSync: vi.fn().mockReturnValue(true),
+	};
+});
 
 const mockedExecFile = vi.mocked(execFile);
 

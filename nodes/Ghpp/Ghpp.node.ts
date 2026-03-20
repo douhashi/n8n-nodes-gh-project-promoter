@@ -1,4 +1,7 @@
-import { execFile } from 'child_process';
+import { execFile, execFileSync } from 'child_process';
+import * as fs from 'fs';
+import * as https from 'https';
+import * as os from 'os';
 import * as path from 'path';
 import { promisify } from 'util';
 
@@ -12,7 +15,67 @@ import type {
 import { NodeOperationError } from 'n8n-workflow';
 
 const execFileAsync = promisify(execFile);
-const binaryPath = path.join(__dirname, '../../../bin/ghpp');
+const binDir = path.join(__dirname, '../../../bin');
+const binaryPath = path.join(binDir, 'ghpp');
+
+const PLATFORM_MAP: Record<string, string> = { linux: 'linux', darwin: 'darwin' };
+const ARCH_MAP: Record<string, string> = { x64: 'amd64', arm64: 'arm64' };
+const BASE_URL = 'https://github.com/douhashi/ghpp/releases/latest/download';
+const MAX_REDIRECTS = 5;
+
+function downloadFile(url: string, dest: string, redirectCount = 0): Promise<void> {
+	return new Promise((resolve, reject) => {
+		if (redirectCount > MAX_REDIRECTS) {
+			reject(new Error('Too many redirects'));
+			return;
+		}
+		if (!url.startsWith('https://')) {
+			reject(new Error(`Refusing non-HTTPS URL: ${url}`));
+			return;
+		}
+		https
+			.get(url, (res) => {
+				if (res.statusCode && res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+					res.resume();
+					downloadFile(res.headers.location, dest, redirectCount + 1).then(resolve).catch(reject);
+					return;
+				}
+				if (res.statusCode !== 200) {
+					res.resume();
+					reject(new Error(`Download failed: HTTP ${res.statusCode}`));
+					return;
+				}
+				const file = fs.createWriteStream(dest);
+				res.pipe(file);
+				file.on('finish', () => file.close(() => resolve()));
+				file.on('error', (err) => {
+					fs.unlink(dest, () => {});
+					reject(err);
+				});
+			})
+			.on('error', reject);
+	});
+}
+
+async function ensureBinary(): Promise<void> {
+	if (fs.existsSync(binaryPath)) return;
+
+	const mappedOS = PLATFORM_MAP[os.platform()];
+	const mappedArch = ARCH_MAP[os.arch()];
+	if (!mappedOS || !mappedArch) {
+		throw new Error(`Unsupported platform: ${os.platform()} ${os.arch()}`);
+	}
+
+	fs.mkdirSync(binDir, { recursive: true });
+
+	const tarName = `ghpp_${mappedOS}_${mappedArch}.tar.gz`;
+	const tarPath = path.join(binDir, '.ghpp.tar.gz');
+
+	await downloadFile(`${BASE_URL}/${tarName}`, tarPath);
+	execFileSync('tar', ['xzf', tarPath, '-C', binDir]);
+	fs.chmodSync(binaryPath, 0o755);
+	fs.unlinkSync(tarPath);
+}
 
 export class Ghpp implements INodeType {
 	description: INodeTypeDescription = {
@@ -96,6 +159,13 @@ export class Ghpp implements INodeType {
 	};
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+		try {
+			await ensureBinary();
+		} catch (error: unknown) {
+			const err = error as { message?: string };
+			throw new NodeOperationError(this.getNode(), `Failed to install ghpp binary: ${err.message || 'Unknown error'}`);
+		}
+
 		const credentials = await this.getCredentials('ghppApi');
 		const items = this.getInputData();
 		const returnData: INodeExecutionData[] = [];
