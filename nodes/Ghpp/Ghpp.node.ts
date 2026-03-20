@@ -12,7 +12,7 @@ import type {
 	INodeType,
 	INodeTypeDescription,
 } from 'n8n-workflow';
-import { NodeOperationError } from 'n8n-workflow';
+import { ApplicationError, NodeOperationError } from 'n8n-workflow';
 
 const execFileAsync = promisify(execFile);
 const binDir = path.join(__dirname, '../../../bin');
@@ -63,7 +63,7 @@ async function ensureBinary(): Promise<void> {
 	const mappedOS = PLATFORM_MAP[os.platform()];
 	const mappedArch = ARCH_MAP[os.arch()];
 	if (!mappedOS || !mappedArch) {
-		throw new Error(`Unsupported platform: ${os.platform()} ${os.arch()}`);
+		throw new ApplicationError(`Unsupported platform: ${os.platform()} ${os.arch()}`);
 	}
 
 	fs.mkdirSync(binDir, { recursive: true });
