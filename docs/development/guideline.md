@@ -9,7 +9,7 @@
 ## ディレクトリ構成
 
 ```
-n8n-nodes-ghpp/
+n8n-node-ghpp/
 ├── nodes/
 │   └── Ghpp/
 │       ├── Ghpp.node.ts          # ノード本体
