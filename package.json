@@ -1,9 +1,9 @@
 {
-	"name": "n8n-node-ghpp",
+	"name": "gh-nodes-gh-project-promoter",
 	"version": "0.1.0",
 	"description": "n8n community node for ghpp (GitHub Project Promoter)",
 	"license": "MIT",
-	"homepage": "https://github.com/douhashi/n8n-node-ghpp",
+	"homepage": "https://github.com/douhashi/gh-nodes-gh-project-promoter",
 	"keywords": [
 		"n8n-community-node-package"
 	],
@@ -12,7 +12,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/douhashi/n8n-node-ghpp.git"
+		"url": "https://github.com/douhashi/gh-nodes-gh-project-promoter.git"
 	},
 	"scripts": {
 		"build": "n8n-node build",

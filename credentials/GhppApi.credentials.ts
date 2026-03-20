@@ -3,7 +3,7 @@ import type { ICredentialTestRequest, ICredentialType, Icon, INodeProperties } f
 export class GhppApi implements ICredentialType {
 	name = 'ghppApi';
 	displayName = 'GHPP API';
-	documentationUrl = 'https://github.com/douhashi/n8n-node-ghpp';
+	documentationUrl = 'https://github.com/douhashi/gh-nodes-gh-project-promoter';
 	icon: Icon = 'file:ghpp.svg';
 	test: ICredentialTestRequest = {
 		request: {
