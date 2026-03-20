@@ -1,10 +1,10 @@
 # プロジェクト概要
 
-## gh-nodes-gh-project-promoter とは
+## n8n-nodes-gh-project-promoter とは
 
-`gh-nodes-gh-project-promoter` は、GitHub Projects V2 のステータス管理を自動化する CLI ツール [ghpp](https://github.com/douhashi/ghpp)（GitHub Project Promoter）を n8n のカスタムノードとして操作可能にする npm パッケージである。
+`n8n-nodes-gh-project-promoter` は、GitHub Projects V2 のステータス管理を自動化する CLI ツール [ghpp](https://github.com/douhashi/ghpp)（GitHub Project Promoter）を n8n のカスタムノードとして操作可能にする npm パッケージである。
 
-- **パッケージ名**: `gh-nodes-gh-project-promoter`
+- **パッケージ名**: `n8n-nodes-gh-project-promoter`
 - **対象バイナリ**: [douhashi/ghpp](https://github.com/douhashi/ghpp)
 - **運用環境**: Docker（セルフホスト n8n）前提
 

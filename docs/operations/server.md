@@ -19,7 +19,7 @@ RUN ARCH=$(uname -m | sed 's/x86_64/amd64/; s/aarch64/arm64/') && \
 
 Community Nodes として追加する場合:
 
-1. n8n の「Settings > Community Nodes」から `gh-nodes-gh-project-promoter` をインストール
+1. n8n の「Settings > Community Nodes」から `n8n-nodes-gh-project-promoter` をインストール
 2. `postinstall` スクリプトが自動的に ghpp バイナリをダウンロード
 3. n8n を再起動
 

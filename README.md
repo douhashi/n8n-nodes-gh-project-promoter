@@ -1,11 +1,11 @@
-# gh-nodes-gh-project-promoter
+# n8n-nodes-gh-project-promoter
 
-[![npm version](https://img.shields.io/npm/v/gh-nodes-gh-project-promoter.svg)](https://www.npmjs.com/package/gh-nodes-gh-project-promoter)
+[![npm version](https://img.shields.io/npm/v/n8n-nodes-gh-project-promoter.svg)](https://www.npmjs.com/package/n8n-nodes-gh-project-promoter)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Description
 
-**gh-nodes-gh-project-promoter** is an n8n community node that runs [ghpp](https://github.com/douhashi/ghpp) (GitHub Project Promoter) from within n8n workflows.
+**n8n-nodes-gh-project-promoter** is an n8n community node that runs [ghpp](https://github.com/douhashi/ghpp) (GitHub Project Promoter) from within n8n workflows.
 
 ghpp automates status transitions in GitHub Projects V2 by promoting items through a defined flow:
 
@@ -25,14 +25,14 @@ inbox -> plan -> ready -> doing
 ### Via n8n Community Nodes (recommended)
 
 1. Open **Settings > Community Nodes** in your n8n instance.
-2. Search for `gh-nodes-gh-project-promoter`.
+2. Search for `n8n-nodes-gh-project-promoter`.
 3. Click **Install**.
 
 ### Manual installation
 
 ```bash
 cd ~/.n8n/custom
-npm install gh-nodes-gh-project-promoter
+npm install n8n-nodes-gh-project-promoter
 ```
 
 The `postinstall` script automatically downloads the appropriate `ghpp` binary from GitHub Releases. No additional setup is needed.
@@ -174,5 +174,5 @@ The ghpp binary is distributed under its own license. See [douhashi/ghpp](https:
 ## Resources
 
 - [ghpp repository](https://github.com/douhashi/ghpp) -- the underlying CLI tool
-- [gh-nodes-gh-project-promoter repository](https://github.com/douhashi/gh-nodes-gh-project-promoter) -- this package
+- [n8n-nodes-gh-project-promoter repository](https://github.com/douhashi/n8n-nodes-gh-project-promoter) -- this package
 - [n8n Community Nodes documentation](https://docs.n8n.io/integrations/community-nodes/)
