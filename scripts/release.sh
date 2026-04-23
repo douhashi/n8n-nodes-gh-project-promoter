@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: scripts/release.sh [patch|minor|major|X.Y.Z[-prerelease]] [--dry-run]
+# Usage: scripts/release.sh [patch|minor|major|X.Y.Z[-prerelease]] [--dry-run] [--yes|-y]
 # Default: patch
 #
 # Examples:
@@ -9,13 +9,17 @@ set -euo pipefail
 #   scripts/release.sh minor          # 0.3.2 -> 0.4.0
 #   scripts/release.sh 0.4.3          # 0.3.2 -> 0.4.3 (explicit)
 #   scripts/release.sh 1.0.0-rc.1     # 0.3.2 -> 1.0.0-rc.1 (pre-release)
+#   scripts/release.sh 0.4.3 --yes    # skip interactive confirmation
 
 VERSION_ARG="${1:-patch}"
 DRY_RUN=false
+ASSUME_YES=false
 
 for arg in "$@"; do
   if [ "$arg" = "--dry-run" ]; then
     DRY_RUN=true
+  elif [ "$arg" = "--yes" ] || [ "$arg" = "-y" ]; then
+    ASSUME_YES=true
   fi
 done
 
@@ -76,10 +80,12 @@ if [ "$DRY_RUN" = true ]; then
   exit 0
 fi
 
-read -r -p "Proceed? [y/N] " confirm
-if [[ ! "$confirm" =~ ^[yY]$ ]]; then
-  echo "Aborted."
-  exit 1
+if [ "$ASSUME_YES" != true ]; then
+  read -r -p "Proceed? [y/N] " confirm </dev/tty
+  if [[ ! "$confirm" =~ ^[yY]$ ]]; then
+    echo "Aborted."
+    exit 1
+  fi
 fi
 
 # npm version accepts both SemVer keywords and explicit X.Y.Z values
